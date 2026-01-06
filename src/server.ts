@@ -2,19 +2,28 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./routes/auth";
+import { authMiddleware } from "./middleware/authMiddleware";
+import expensesRoutes from "./routes/expenses";
+import billsRoutes from "./routes/bills"
+import dotenv from "dotenv";
+dotenv.config();
+
+
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect MongoDB
 mongoose
-  .connect("mongodb://127.0.0.1:27017/fintrack", {})
+  .connect(process.env.MONGO_URI!, {})
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error(err));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/expenses", expensesRoutes);
+app.use("/api/bills",billsRoutes);
+
 
 app.get("/", (req, res) => res.send("API running"));
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(process.env.PORT!, () => console.log("Server running"));

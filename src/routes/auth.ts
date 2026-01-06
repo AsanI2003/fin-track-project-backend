@@ -2,6 +2,8 @@ import { Router } from "express";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 const router = Router();
 
@@ -16,14 +18,14 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
 
     // Hash password
-    const hashed = await bcrypt.hash(password, 10);
+    const hashed = await bcrypt.hash(password, 12);
 
     const user = new User({ name, email, password: hashed });
     await user.save();
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error" }); 
   }
 });
 
@@ -39,13 +41,16 @@ router.post("/login", async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Invalid credentials" });
 
-    // Generate JWT
-    const token = jwt.sign({ id: user._id }, "secretKey", { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: "1h" });
 
-    res.json({ user: { name: user.name, email: user.email }, token });
+
+    res.json({ user: { name: user.name, email: user.email }, token:token });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
+
 
 export default router;
