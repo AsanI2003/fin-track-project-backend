@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth";
 import { authMiddleware } from "./middleware/authMiddleware";
 import expensesRoutes from "./routes/expenses";
 import billsRoutes from "./routes/bills"
+import aiRoutes from "./routes/ai";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -22,6 +23,7 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expensesRoutes);
 app.use("/api/bills",billsRoutes);
+app.use("/api/ai", aiRoutes);
 
 
 app.get("/", (req, res) => res.send("API running"));

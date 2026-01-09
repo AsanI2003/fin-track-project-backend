@@ -15,12 +15,14 @@ router.post("/", authMiddleware, upload.single("bill"), async (req: AuthRequest,
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
-
+      
     // Upload directly from buffer (simpler than upload_stream)
     const uploaded = await cloudinary.uploader.upload(
       `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
       { resource_type: "image" }
     );
+   
+    
 
     const bill = await Bill.create({
       user: req.userId,
