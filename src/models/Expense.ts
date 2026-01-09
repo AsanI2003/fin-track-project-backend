@@ -1,4 +1,4 @@
-// backend/src/models/Expense.ts
+
 import mongoose, { Schema, Document, Types } from "mongoose";
 
 export interface IExpense extends Document {

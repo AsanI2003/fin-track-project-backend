@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 const router = express.Router();
 
-// Create expense
+// Create 
 router.post("/", authMiddleware, async (req: AuthRequest, res) => {
   try {
     const { category, amount, date, time } = req.body;
@@ -34,7 +34,7 @@ router.post("/", authMiddleware, async (req: AuthRequest, res) => {
 router.get("/", authMiddleware, async (req: AuthRequest, res) => {
   try {
     const userId = req.userId!;
-    const { date } = req.query; // optional YYYY-MM-DD
+    const { date } = req.query; 
 
     const filter: any = { user: userId };
     if (date) {

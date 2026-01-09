@@ -1,4 +1,4 @@
-// src/routes/bills.ts
+
 import express from "express";
 import multer from "multer";
 import cloudinary from "../config/cloudinary";
@@ -9,14 +9,14 @@ import { AuthRequest } from "../middleware/authMiddleware";
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Upload new bill
+// new bill
 router.post("/", authMiddleware, upload.single("bill"), async (req: AuthRequest, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
       
-    // Upload directly from buffer (simpler than upload_stream)
+    // Upload directly from buffer (simpler than upload_stream method)
     const uploaded = await cloudinary.uploader.upload(
       `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
       { resource_type: "image" }

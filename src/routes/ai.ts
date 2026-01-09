@@ -1,4 +1,4 @@
-// backend/src/routes/ai.ts
+
 import express from "express";
 import axios from "axios";
 import Expense from "../models/Expense";
@@ -16,7 +16,7 @@ router.post("/chat", authMiddleware, async (req: AuthRequest, res) => {
     const summary = expenses.map((e) => ({
       category: e.category,
       amount: e.amount,
-      date: e.date.toISOString().split("T")[0], // YYYY-MM-DD
+      date: e.date.toISOString().split("T")[0], // YYYY-MM-DD format 
     }));
 
     const summaryString = JSON.stringify(summary);
@@ -34,11 +34,11 @@ if asking budgeting advice give budgeting advice based on current spendings and 
 User transaction history (category, amount, date): ${summaryString}
 `;
 
-    // 3. Call Groq API (Compound Mini model)
+    
     const response = await axios.post(
       "https://api.groq.com/openai/v1/chat/completions",
       {
-        model: "groq/compound-mini", // production model, free for developers
+        model: "groq/compound-mini", // production model, free for developers for now
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userMessage },
